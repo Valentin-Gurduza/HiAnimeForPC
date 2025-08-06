@@ -1,0 +1,7 @@
+<!-- Placeholder SVG icon for the application -->
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" fill="#1a1a1a" rx="32"/>
+  <circle cx="128" cy="128" r="80" fill="#00d4ff" opacity="0.8"/>
+  <polygon points="108,98 108,158 168,128" fill="#1a1a1a"/>
+  <text x="128" y="200" text-anchor="middle" fill="#00d4ff" font-family="Arial, sans-serif" font-size="24" font-weight="bold">HiAnime</text>
+</svg>

@@ -1,0 +1,474 @@
+/* Component-specific Styles */
+
+/* Search Page */
+.search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.search-filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Anime Detail Page */
+.anime-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.anime-detail-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.anime-poster {
+    position: relative;
+}
+
+.anime-poster img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--shadow);
+}
+
+.poster-actions {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.favorite-btn:hover {
+    background: var(--accent-secondary);
+}
+
+.favorite-btn.active {
+    background: var(--error);
+}
+
+.download-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.download-btn:hover {
+    background: var(--bg-tertiary);
+}
+
+.anime-info {
+    padding-top: 8px;
+}
+
+.anime-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.anime-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    background: var(--bg-secondary);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.anime-genres {
+    margin-bottom: 20px;
+}
+
+.genre-tag {
+    display: inline-block;
+    background: var(--accent-primary);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin: 2px 4px 2px 0;
+}
+
+.anime-synopsis h3 {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.anime-synopsis p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.episodes-section {
+    border-top: 1px solid var(--border-color);
+    padding-top: 30px;
+}
+
+.episodes-title {
+    color: var(--text-primary);
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+/* Video Player */
+.player-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+}
+
+.player-header {
+    background: var(--bg-primary);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.player-info h3 {
+    color: var(--text-primary);
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.player-info span {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.video-player-wrapper {
+    position: relative;
+    flex: 1;
+    background: #000;
+}
+
+#video-player {
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+.video-controls-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-player-wrapper:hover .video-controls-overlay {
+    opacity: 1;
+}
+
+.controls-top,
+.controls-bottom {
+    padding: 20px;
+    pointer-events: auto;
+}
+
+.controls-top {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+}
+
+.controls-bottom {
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.episode-navigation {
+    display: flex;
+    gap: 12px;
+}
+
+.nav-episode-btn {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.nav-episode-btn:hover {
+    background: rgba(0,0,0,0.9);
+}
+
+.nav-episode-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quality-selector,
+.subtitle-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-btn {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(0,0,0,0.9);
+}
+
+.control-btn.active {
+    background: var(--accent-primary);
+}
+
+#quality-select,
+#subtitle-language {
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Next Episode Countdown */
+.next-episode-countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.countdown-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.countdown-timer {
+    font-weight: bold;
+    color: var(--accent-primary);
+}
+
+.countdown-btn {
+    padding: 10px 20px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.countdown-btn.primary {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.countdown-btn:not(.primary) {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Settings Page */
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.settings-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.settings-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.settings-section h3 {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 20px;
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-item label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+}
+
+.setting-select,
+.setting-input {
+    min-width: 200px;
+}
+
+.setting-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-primary);
+}
+
+.directory-input {
+    display: flex;
+    gap: 8px;
+    min-width: 300px;
+}
+
+.directory-input .setting-input {
+    flex: 1;
+    min-width: auto;
+}
+
+.browse-btn {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.browse-btn:hover {
+    background: var(--accent-secondary);
+}
+
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .anime-detail-content {
+        grid-template-columns: 250px 1fr;
+        gap: 20px;
+    }
+    
+    .anime-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .anime-detail-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .search-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-filters {
+        justify-content: center;
+    }
+    
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .nav-search {
+        order: 3;
+        flex-basis: 100%;
+        margin: 10px 0 0 0;
+        max-width: none;
+    }
+}

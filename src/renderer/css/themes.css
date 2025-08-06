@@ -1,0 +1,73 @@
+/* Theme Variables */
+:root {
+    /* Dark Theme (default) */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #404040;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+    --accent-primary: #00d4ff;
+    --accent-secondary: #0099cc;
+    --border-color: #404040;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --error: #ff4444;
+    --success: #44ff88;
+    --warning: #ffaa44;
+}
+
+/* Light Theme */
+.theme-light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #e0e0e0;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --accent-primary: #007acc;
+    --accent-secondary: #0066aa;
+    --border-color: #e0e0e0;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --error: #cc3333;
+    --success: #33cc66;
+    --warning: #cc8833;
+}
+
+/* Dark Theme Explicit */
+.theme-dark {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #404040;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+    --accent-primary: #00d4ff;
+    --accent-secondary: #0099cc;
+    --border-color: #404040;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --error: #ff4444;
+    --success: #44ff88;
+    --warning: #ffaa44;
+}
+
+/* Theme Transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Theme-specific adjustments */
+.theme-light .anime-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .loading-overlay {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.theme-light .loading-spinner {
+    color: var(--text-primary);
+}
+
+.theme-light .toast {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiAnime For PC</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="theme-dark">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="../assets/logo.png" alt="HiAnime For PC" class="logo">
+                <span class="brand-text">HiAnime For PC</span>
+            </div>
+            <div class="nav-search">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search anime..." class="search-input">
+                    <button class="search-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-btn" id="settings-btn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="nav-btn" id="favorites-btn" title="My List">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </li>
+            <li class="menu-item" data-page="trending">
+                <i class="fas fa-fire"></i>
+                <span>Trending</span>
+            </li>
+            <li class="menu-item" data-page="new-releases">
+                <i class="fas fa-star"></i>
+                <span>New Releases</span>
+            </li>
+            <li class="menu-item" data-page="ongoing">
+                <i class="fas fa-play-circle"></i>
+                <span>Ongoing</span>
+            </li>
+            <li class="menu-item" data-page="completed">
+                <i class="fas fa-check-circle"></i>
+                <span>Completed</span>
+            </li>
+            <li class="menu-item" data-page="genres">
+                <i class="fas fa-tags"></i>
+                <span>Genres</span>
+            </li>
+            <li class="menu-item" data-page="calendar">
+                <i class="fas fa-calendar"></i>
+                <span>Calendar</span>
+            </li>
+            <li class="menu-item" data-page="history">
+                <i class="fas fa-history"></i>
+                <span>Watch History</span>
+            </li>
+            <li class="menu-item" data-page="downloads">
+                <i class="fas fa-download"></i>
+                <span>Downloads</span>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <!-- Loading Indicator -->
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <!-- Continue Watching Section -->
+            <section class="content-section" id="continue-watching-section" style="display: none;">
+                <h2 class="section-title">Continue Watching</h2>
+                <div class="anime-grid" id="continue-watching-grid"></div>
+            </section>
+
+            <!-- Trending Anime Section -->
+            <section class="content-section">
+                <h2 class="section-title">Trending Now</h2>
+                <div class="anime-grid" id="trending-grid"></div>
+            </section>
+
+            <!-- New Releases Section -->
+            <section class="content-section">
+                <h2 class="section-title">New Releases</h2>
+                <div class="anime-grid" id="new-releases-grid"></div>
+            </section>
+
+            <!-- Ongoing Anime Section -->
+            <section class="content-section">
+                <h2 class="section-title">Ongoing Anime</h2>
+                <div class="anime-grid" id="ongoing-grid"></div>
+            </section>
+        </div>
+
+        <!-- Search Results Page -->
+        <div class="page" id="search-page">
+            <div class="search-header">
+                <h2 class="page-title">Search Results</h2>
+                <div class="search-filters">
+                    <select id="genre-filter" class="filter-select">
+                        <option value="">All Genres</option>
+                    </select>
+                    <select id="year-filter" class="filter-select">
+                        <option value="">All Years</option>
+                    </select>
+                    <select id="status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="ongoing">Ongoing</option>
+                    </select>
+                </div>
+            </div>
+            <div class="anime-grid" id="search-results-grid"></div>
+        </div>
+
+        <!-- Anime Detail Page -->
+        <div class="page" id="anime-detail-page">
+            <div class="anime-detail-container">
+                <!-- Back button -->
+                <button class="back-btn" id="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </button>
+                
+                <div class="anime-detail-content">
+                    <div class="anime-poster">
+                        <img id="detail-poster" src="" alt="">
+                        <div class="poster-actions">
+                            <button class="action-btn favorite-btn" id="favorite-btn">
+                                <i class="fas fa-heart"></i>
+                                Add to List
+                            </button>
+                            <button class="action-btn download-btn" id="download-btn">
+                                <i class="fas fa-download"></i>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                    <div class="anime-info">
+                        <h1 class="anime-title" id="detail-title"></h1>
+                        <div class="anime-meta">
+                            <span class="meta-item" id="detail-year"></span>
+                            <span class="meta-item" id="detail-status"></span>
+                            <span class="meta-item" id="detail-episodes"></span>
+                            <span class="meta-item" id="detail-rating"></span>
+                        </div>
+                        <div class="anime-genres" id="detail-genres"></div>
+                        <div class="anime-synopsis">
+                            <h3>Synopsis</h3>
+                            <p id="detail-synopsis"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="episodes-section">
+                    <h3 class="episodes-title">Episodes</h3>
+                    <div class="episodes-grid" id="episodes-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Player Page -->
+        <div class="page" id="player-page">
+            <div class="player-container">
+                <div class="player-header">
+                    <button class="back-btn" id="player-back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Episodes
+                    </button>
+                    <div class="player-info">
+                        <h3 id="player-anime-title"></h3>
+                        <span id="player-episode-title"></span>
+                    </div>
+                </div>
+                
+                <div class="video-player-wrapper">
+                    <video id="video-player" controls preload="metadata">
+                        <track kind="subtitles" id="subtitle-track" default>
+                        Your browser does not support the video tag.
+                    </video>
+                    
+                    <div class="video-controls-overlay" id="video-controls">
+                        <div class="controls-top">
+                            <div class="episode-navigation">
+                                <button class="nav-episode-btn" id="prev-episode-btn">
+                                    <i class="fas fa-step-backward"></i>
+                                    Previous
+                                </button>
+                                <button class="nav-episode-btn" id="next-episode-btn">
+                                    Next
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="controls-bottom">
+                            <div class="quality-selector">
+                                <select id="quality-select">
+                                    <option value="auto">Auto</option>
+                                </select>
+                            </div>
+                            <div class="subtitle-controls">
+                                <button class="control-btn" id="subtitle-toggle">
+                                    <i class="fas fa-closed-captioning"></i>
+                                </button>
+                                <select id="subtitle-language" style="display: none;">
+                                    <option value="">No Subtitles</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Next Episode Countdown -->
+                    <div class="next-episode-countdown" id="next-episode-countdown" style="display: none;">
+                        <div class="countdown-content">
+                            <p>Next episode starts in <span id="countdown-timer">10</span> seconds</p>
+                            <button class="countdown-btn" id="cancel-autoplay">Cancel</button>
+                            <button class="countdown-btn primary" id="play-next-now">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settings-page">
+            <div class="settings-container">
+                <h2 class="page-title">Settings</h2>
+                
+                <div class="settings-sections">
+                    <div class="settings-section">
+                        <h3>Video Settings</h3>
+                        <div class="setting-item">
+                            <label for="default-quality">Default Video Quality</label>
+                            <select id="default-quality" class="setting-select">
+                                <option value="auto">Auto</option>
+                                <option value="1080p">1080p</option>
+                                <option value="720p">720p</option>
+                                <option value="480p">480p</option>
+                                <option value="360p">360p</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="autoplay-next">Auto-play Next Episode</label>
+                            <input type="checkbox" id="autoplay-next" class="setting-checkbox">
+                        </div>
+                        <div class="setting-item">
+                            <label for="autoplay-countdown">Auto-play Countdown (seconds)</label>
+                            <input type="number" id="autoplay-countdown" class="setting-input" min="5" max="30" value="10">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Subtitle Settings</h3>
+                        <div class="setting-item">
+                            <label for="default-subtitle-lang">Default Subtitle Language</label>
+                            <select id="default-subtitle-lang" class="setting-select">
+                                <option value="">None</option>
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="subtitle-size">Subtitle Size</label>
+                            <select id="subtitle-size" class="setting-select">
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Download Settings</h3>
+                        <div class="setting-item">
+                            <label for="download-directory">Download Directory</label>
+                            <div class="directory-input">
+                                <input type="text" id="download-directory" class="setting-input" readonly>
+                                <button class="browse-btn" id="browse-download-dir">Browse</button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label for="download-quality">Download Quality</label>
+                            <select id="download-quality" class="setting-select">
+                                <option value="1080p">1080p</option>
+                                <option value="720p">720p</option>
+                                <option value="480p">480p</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>General Settings</h3>
+                        <div class="setting-item">
+                            <label for="theme-setting">Theme</label>
+                            <select id="theme-setting" class="setting-select">
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="notifications">Episode Notifications</label>
+                            <input type="checkbox" id="notifications" class="setting-checkbox">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-actions">
+                    <button class="btn secondary" id="reset-settings">Reset to Default</button>
+                    <button class="btn primary" id="save-settings">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
