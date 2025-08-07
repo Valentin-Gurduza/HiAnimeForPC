@@ -167,6 +167,12 @@ class UIManager {
                 case 'ongoing':
                     await this.loadOngoingPage();
                     break;
+                case 'completed':
+                    await this.loadCompletedPage();
+                    break;
+                case 'genres':
+                    await this.loadGenresPage();
+                    break;
                 case 'history':
                     this.loadHistoryPage();
                     break;
@@ -179,10 +185,16 @@ class UIManager {
                 case 'settings':
                     this.loadSettingsPage();
                     break;
+                default:
+                    console.warn(`Unknown page: ${pageName}`);
+                    this.showToast(`Page "${pageName}" not implemented yet`, 'info');
             }
         } catch (error) {
             console.error(`Failed to load ${pageName} page:`, error);
             this.showToast('Failed to load content', 'error');
+            
+            // Show a basic error page
+            this.showErrorPage(pageName, error.message);
         } finally {
             this.hideLoading();
         }
@@ -223,8 +235,37 @@ class UIManager {
 
     async loadOngoingPage() {
         const ongoing = await hiAnimeAPI.getOngoingAnime();
-        document.querySelector('#ongoing-page .page-title').textContent = 'Ongoing Anime';
         this.renderAnimeGrid('ongoing-grid', ongoing);
+    }
+
+    async loadCompletedPage() {
+        const watchHistory = appStorage.getWatchHistory();
+        const completedAnime = watchHistory.filter(anime => 
+            anime.progress && anime.progress >= 100
+        );
+        
+        if (completedAnime && completedAnime.length > 0) {
+            this.renderCompletedAnime(completedAnime);
+        } else {
+            // If no completed anime, show trending as a fallback
+            try {
+                const trending = await hiAnimeAPI.getTrendingAnime();
+                this.renderAnimeGrid('completed-grid', trending);
+            } catch (error) {
+                console.error('Error loading completed page:', error);
+                this.showBasicMessage('completed', 'No completed anime yet', 'check-circle');
+            }
+        }
+    }
+
+    async loadGenresPage() {
+        try {
+            const genres = await hiAnimeAPI.getGenres();
+            this.renderGenresList(genres);
+        } catch (error) {
+            console.error('Failed to load genres:', error);
+            this.showBasicMessage('genres', 'Genres feature coming soon!');
+        }
     }
 
     loadHistoryPage() {
@@ -247,6 +288,99 @@ class UIManager {
         this.populateSettings(settings);
     }
 
+    // Helper methods for empty or error states
+    showErrorPage(pageName, errorMessage) {
+        const pageElement = document.getElementById(`${pageName}-page`);
+        if (pageElement) {
+            pageElement.innerHTML = `
+                <div class="error-container" style="text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: var(--error); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">Oops! Something went wrong</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 24px;">${errorMessage}</p>
+                    <button class="btn primary" onclick="location.reload()">
+                        <i class="fas fa-refresh"></i> Reload Page
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    showBasicMessage(pageName, message, icon = 'info-circle') {
+        const pageElement = document.getElementById(`${pageName}-page`);
+        if (pageElement) {
+            pageElement.innerHTML = `
+                <div class="message-container" style="text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-${icon}" style="font-size: 48px; color: var(--accent-primary); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--text-primary); margin-bottom: 16px;">${message}</h2>
+                    <button class="btn secondary" onclick="uiManager.navigateToPage('home')">
+                        <i class="fas fa-home"></i> Back to Home
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    renderGenresList(genres) {
+        const container = document.getElementById('genres-grid');
+        if (!container) {
+            this.showBasicMessage('genres', 'Genres page layout not found');
+            return;
+        }
+
+        container.innerHTML = '';
+        
+        if (!genres || genres.length === 0) {
+            this.showBasicMessage('genres', 'No genres available', 'tags');
+            return;
+        }
+
+        genres.forEach(genre => {
+            const genreCard = document.createElement('div');
+            genreCard.className = 'genre-card';
+            genreCard.innerHTML = `
+                <h3>${genre.name}</h3>
+            `;
+            genreCard.addEventListener('click', () => {
+                this.searchAnimeByGenre(genre.name);
+            });
+            container.appendChild(genreCard);
+        });
+    }
+
+    renderCompletedAnime(completedAnime) {
+        const container = document.getElementById('completed-grid');
+        if (!container) {
+            this.showBasicMessage('completed', 'Completed page layout not found');
+            return;
+        }
+
+        container.innerHTML = '';
+        
+        if (!completedAnime || completedAnime.length === 0) {
+            this.showBasicMessage('completed', 'No completed anime yet', 'check-circle');
+            return;
+        }
+
+        completedAnime.forEach(anime => {
+            const animeCard = this.createAnimeCard(anime);
+            container.appendChild(animeCard);
+        });
+    }
+
+    async searchAnimeByGenre(genreName) {
+        this.showLoading();
+        try {
+            const results = await hiAnimeAPI.getAnimeByGenre(genreName);
+            this.renderSearchResults(results, `Genre: ${genreName}`);
+            this.navigateToPage('search');
+        } catch (error) {
+            console.error('Genre search failed:', error);
+            this.showToast('Failed to load genre content', 'error');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
     // Render anime grid
     renderAnimeGrid(containerId, animeList) {
         const container = document.getElementById(containerId);
@@ -261,25 +395,60 @@ class UIManager {
     }
 
     // Create anime card element
+    // Helper function to extract anime ID from various sources
+    extractAnimeId(anime) {
+        if (!anime) return null;
+        
+        // Try different possible ID fields
+        return anime.id || 
+               anime.animeId || 
+               anime.url?.split('/').pop() || 
+               anime.href?.split('/').pop() || 
+               anime.link?.split('/').pop() ||
+               null;
+    }
+
     createAnimeCard(anime) {
         const card = document.createElement('div');
         card.className = 'anime-card fade-in';
+        
+        // Ensure we have valid data
+        const title = anime.title || 'Unknown Title';
+        const poster = anime.poster || '../assets/placeholder.png';
+        const year = anime.year || '';
+        const type = anime.type || '';
+        const episodes = anime.episodes || '';
+        
         card.innerHTML = `
             <div class="anime-poster">
-                <img src="${anime.poster}" alt="${anime.title}" loading="lazy" onerror="this.src='../assets/placeholder.png'">
+                <img src="${poster}" alt="${title}" loading="lazy" onerror="this.src='../assets/placeholder.png'">
             </div>
             <div class="anime-info">
-                <h3 class="anime-title">${anime.title}</h3>
+                <h3 class="anime-title">${title}</h3>
                 <div class="anime-meta">
-                    ${anime.year ? `<span class="meta-item">${anime.year}</span>` : ''}
-                    ${anime.type ? `<span class="meta-item">${anime.type}</span>` : ''}
-                    ${anime.episodes ? `<span class="meta-item">${anime.episodes} eps</span>` : ''}
+                    ${year ? `<span class="meta-item">${year}</span>` : ''}
+                    ${type ? `<span class="meta-item">${type}</span>` : ''}
+                    ${episodes ? `<span class="meta-item">${episodes} eps</span>` : ''}
                 </div>
             </div>
         `;
 
-        card.addEventListener('click', () => {
-            this.showAnimeDetails(anime);
+        // Add click handler with better error handling
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Anime card clicked:', anime);
+            
+            // Use the extractAnimeId helper function
+            const animeId = this.extractAnimeId(anime);
+            
+            if (animeId) {
+                // Ensure the anime has the ID for future reference
+                anime.id = animeId;
+                this.showAnimeDetails(anime);
+            } else {
+                this.showToast('Invalid anime ID - unable to load details', 'error');
+                console.error('Invalid anime ID for:', anime);
+            }
         });
 
         return card;

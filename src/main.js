@@ -52,8 +52,8 @@ function createWindow() {
     return { action: 'deny' };
   });
 
-  // Open DevTools in development
-  if (process.argv.includes('--dev')) {
+  // Open DevTools in development only when explicitly requested
+  if (process.argv.includes('--dev') && process.argv.includes('--devtools')) {
     mainWindow.webContents.openDevTools();
   }
 }
